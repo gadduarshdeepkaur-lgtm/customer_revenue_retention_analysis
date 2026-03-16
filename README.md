@@ -9,7 +9,6 @@ The analysis combines **Python, SQL, and Power BI** to create a complete data an
 - Python (Pandas, NumPy, Matplotlib)
 - SQL (MySQL)
 - Power BI
-- Jupyter Notebook
 
 ## Dataset
 Synthetic e-commerce dataset containing:
@@ -40,4 +39,3 @@ The Power BI dashboard provides interactive insights including:
 - Customer churn rate ≈ 41%
 - High-value customers contribute majority of revenue
 
-## Project Structure
