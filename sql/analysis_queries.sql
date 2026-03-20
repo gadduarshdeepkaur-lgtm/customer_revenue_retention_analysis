@@ -15,36 +15,46 @@ city VARCHAR(50),
 signup_date date
 );
 
+-- revenue by product --
 SELECT product_name, SUM(revenue) AS total_revenue
 FROM ORDERS
 GROUP BY product_name
 ORDER BY total_revenue DESC;
 
+-- revenue by city --
 SELECT city, SUM(revenue) AS total_revenue
 FROM orders
 GROUP BY city
 ORDER BY total_revenue DESC;
 
+-- monthly revenue --
 SELECT DATE_FORMAT(order_date, '%Y-%m') AS month, SUM(revenue) AS montly_revenue
 FROM orders
 GROUP BY month
 ORDER BY month;
 
+-- top customers clv --
 SELECT customer_id, SUM(revenue) AS lifetime_value
 FROM orders
 GROUP BY customer_id
 ORDER BY lifetime_value DESC
 LIMIT 10;
 
-WITH customer_revenue AS (
-SELECT customer_id, SUM(revenue) AS total_revenue
-FROM orders
-GROUP BY customer_id
-)
-
+-- customers whose revenue is ABOVE average --
 SELECT *
-FROM customer_revenue
-WHERE total_revenue > (SELECT AVG(total_revenue) FROM customer_revenue);
+FROM (
+    SELECT customer_id, SUM(revenue) AS total_revenue
+    FROM orders
+    GROUP BY customer_id
+) t
+WHERE total_revenue > (
+    SELECT AVG(total_revenue)
+    FROM (
+        SELECT SUM(revenue) AS total_revenue
+        FROM orders
+        GROUP BY customer_id
+    ) x
+);
 
 
 
